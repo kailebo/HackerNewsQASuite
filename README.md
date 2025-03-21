@@ -52,15 +52,33 @@
      - Login to existing account
 
 ## Test Ideas
- 1. Top 100 articles of Newest are sorted chronologically
- 2. All top bar navigation button are working
- 3. Search box yields results with matching keywords
- 4. New User setup is working
- 5. Users can log into their existing accounts
- 6. Users can create and delete new posts (This one might not work)
- 7. Liking or submiting directs non-users to login or signup
- 8. Comment count matches number of comments for top 100 articles
- 9. Ad slot up to date and link is working
- 10. Site margins are removed for smaller viewing windows
+ 1. Top 100 articles of Newest are sorted chronologically - content
+ 2. All top bar navigation button are working - navigation
+ 3. Search box yields results with matching keywords - navigation
+ 4. New User setup is working - user
+ 5. Users can log into their existing accounts - user
+ 6. Users can create and delete new posts (This one might not work) - users
+ 7. Liking or submiting directs non-users to login or signup - users
+ 8. Comment count matches number of comments for top 100 articles - content
+ 9. Ad slot up to date and link is working - content
+ 10. Site margins are removed for smaller viewing windows - navigation
  11. parent link on comment pages links to item comment is attached to
- 12. No blacklisted content in the lastes 100 articles, comments, jobs, ask, show, jobs
+ 12. No blacklisted content in last hour:checks new articles, comments, jobs, ask, show
+ 13. post to show follow guildlines layout by HN: https://news.ycombinator.com/showhn.html
+
+ ## Test Catagories
+ ### Content Display
+ 1. Top 100 articles of Newest are sorted chronologically - content
+ 8. Comment count matches number of comments for top 100 articles - content
+ 9. Ad slot up to date and link is working - content
+ 12. No blacklisted content in last hour:checks new articles, comments, jobs, ask, show
+ ### Site Navigation
+ 2. All top bar navigation button are working - navigation
+ 3. Search box yields results with matching keywords - nav
+ 10. Site margins are removed for smaller viewing windows - navigation
+ 11. parent link on comment pages links to item comment is attached to
+ ### User Interations
+ 4. New User setup is working - user
+ 5. Users can log into their existing accounts - user
+ 6. Users can create and delete new posts (This one might not work) - users
+ 7. Liking or submiting directs non-users to login or signup - users
