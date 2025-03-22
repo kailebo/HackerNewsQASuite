@@ -1,7 +1,7 @@
 //Import Playwright testing tools
-import { test,expect } from '@playwright/test'
+import { test,expect } from '@playwright/test';
 //Import POMs used in these tests
-import { TestSetup } from '../POM/TestSetup.ts'
+import { TestSetup } from '../POM/TestSetup.ts';
 import { TopNavBar } from '../POM/TopNavBar.ts';
 //Import test data used by these tests
 import { topNavBarExpected } from '../test-data/topNavBarExpect.json'
