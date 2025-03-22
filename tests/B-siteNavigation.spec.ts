@@ -6,19 +6,23 @@ import { TopNavBar } from '../POM/TopNavBar.ts';
 //Import test data used by these tests
 import { topNavBarExpected } from '../test-data/topNavBarExpect.json'
 
-test.describe('Site navigation with working properly', () => {
+
+test.describe('B. Site navigation with working properly', () => {
+    //Open Hacker News page for each test
     test.beforeEach(async ({ page }) => {
         //Create POM classes
         const PomHackerNewsPage = new TestSetup(page);
         await PomHackerNewsPage.gotoHackerNews(); 
     })
+    //Close Page after each test
     test.afterEach(async ({ page }) => {
         await page.close()
     })
-    test('Top Navigation bar is visible and links to correct pages', async ({ page }) => {
+    test('B.1 Top Navigation bar is visible and links to correct pages', async ({ page }) => {
         //Create POM classes for navigating top bar
         const PomTopNavBar = new TopNavBar(page);
         
+
         //For each of the Top bar Navigation button:
         // - expect it to be visible
         // - click it to navigate to page
