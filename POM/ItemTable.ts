@@ -1,4 +1,4 @@
-import { type Locator, type Page } from '@playwright/test';
+import { Browser, type Locator, type Page } from '@playwright/test';
 import { readlink } from 'fs';
 
 //This POM is designed to interact with the html tables that list almost all of the content 
@@ -13,20 +13,30 @@ export class ItemTable {
     readonly page: Page;
     readonly commentsLoc: Locator;
     readonly moreItemsButton: Locator;
+    readonly itemTopRow: Locator;
     
 
     
     constructor(page) {
         this.page = page;
         this.commentsLoc = page.locator('.subline a[href^="item?id="]:not(.age *)');
-        this. moreItemsButton = page.locator('.morelink');
+        this.moreItemsButton = page.locator('.morelink');
+        this.itemTopRow = page.locator('.athing');
+    }
+    async waitForTableToLoad() {
+        this.page.waitForLoadState('domcontentloaded')
+        // await this.page.waitForFunction(async () => {
+        //     //Waits for all 30 items on page to load. 
+        //     // This is good when targeting all content matching a locator on the page
+        //     return await this.itemTopRow.count() >= 30;
+        // })
     }
     async getItemDetailsById(itemId,getAll=false,getRank=false,getTitle=false,getUrl=false,getUser=false,getTime=false,getComments=false) {
         //This method uses an items hacker news id number to make sure all the details it pulls are for the same item
         // the item must be showing on the current page.
         // - Set getAll to true to pull all details or set individual items to true to pull just certain details
         // - details you are not retieving will be set to null
-        await this.page.waitForSelector('.athing')
+        this.waitForTableToLoad()
         
         //If getAll is assign true all getBooleans are overwritten to true
         getAll ? getRank = getTitle = getUrl = getUser = getTime = getComments = true : getAll;

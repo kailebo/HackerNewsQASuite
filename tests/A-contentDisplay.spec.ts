@@ -1,4 +1,5 @@
 //Import Playwright testing tools
+import { chromium } from 'playwright';
 import { test,expect } from '@playwright/test';
 //Import POMs used in these tests
 import { TestSetup } from '../POM/TestSetup.ts';
@@ -28,27 +29,16 @@ test.describe('A. Hacker News content is displaying correctly', () => {
 
         //Navigate to Hacker News acticles page and wait for line of table to load
         await PomTopNavBar.navHackerNews();
-        await page.waitForSelector('.athing')
+        await PomItemTable.waitForTableToLoad();
 
         //Fetch array of comment counters values and the links to the pages with those comments
         while (articles.length < numArticlesToTest ) {
-            // const articlesOnPagex = await page.locator('.athing').evaluateAll(articlesx =>
-            //     //Since the Rank and timestamp values in Hacker News do not share the same parent I am using the post id number to verify
-            //     // that I am indeeded pairing the timestamp and rank from the same article
-            //     articlesx.map(article => ({
-            //           //id and rank share the same parent which we targeted with locatro('.athing')
-            //           id: article.getAttribute('id'),
-            //           rank: article.querySelector('.rank')?.textContent?.trim(),
-            //           //
-            //           time: document.querySelector(`.age:has([href="item?id=${article.getAttribute('id')}"])`)?.getAttribute('title'),
-            //       }))
-            //     );
-            
             //Get all comment lines and their href
-            const articlesOnPage = await page.locator('.subline a[href^="item?id="]:not(.age *)').evaluateAll(items => 
+            let articlesOnPage = await page.locator('.subline a[href^="item?id="]:not(.age *)').evaluateAll(items => 
                 items.map(item => ({
                     commentCount: item?.textContent?.trim(),
                     url: item.getAttribute('href')
+                    // id: url.match('/(?<=item?id=)/')[0]
                 }))
             );
             //Push articles from this page to the articles array
@@ -56,20 +46,30 @@ test.describe('A. Hacker News content is displaying correctly', () => {
 
             //If enough articles have been collected trim array to exactly number of articles requested
             // else: click More to show more articles
-            articles.length > numArticlesToTest ? articles.slice(0,numArticlesToTest) : PomItemTable.showMoreItems()
-            break
+            articles.length >= numArticlesToTest ? articles.slice(0,numArticlesToTest) : await PomItemTable.showMoreItems()
         }
-
+        console.log(articles[0])
         //Go through array of comment data:
         // - follow each comment url
         // - count comments on page
         // - comparte to comment counter value from article list page
-        await Promise.all()
-        
-
-
-        const testItem = await PomItemTable.getItemDetailsById('43415820')
-        console.log(testItem)
+        let commentCountErrors = []; // this stores any mismatches between comment counter and acutal number of comments
+        // const browser = await chromium.launch()
+        // const context = await browser.newContext()
+        // await Promise.all(articles.map(async article => {
+            
+        //     //goto href
+        //     const commentPage = await context.newPage()
+        //     await commentPage.goto(article.url)
+        //     await commentPage.waitForLoadState('domcontentloaded')
+        //     let numCommentsOnPage = await commentPage.locator('.comtr:not(.noshow)').count()
+            
+        //     //count comments on that page
+        //     if (numCommentsOnPage != article.commentCount) {
+        //         commentCountErrors.push(`Item ___ has mismatch betwen comment counter: ${article.commentCount} and number of comments displayed ${numCommentsOnPage}`)
+        //     }
+        //     //compare comment count values
+        // }))
 
     })
 })

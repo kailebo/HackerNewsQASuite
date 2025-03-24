@@ -1,4 +1,4 @@
-import { type Locator, type Page } from "playwright/test";
+import { chromium, type Browser, type Locator, type Page } from "playwright/test";
 
 //POM to open and close browsers for test on Hacker News
 
