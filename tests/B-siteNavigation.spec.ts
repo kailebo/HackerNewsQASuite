@@ -3,6 +3,7 @@ import { test,expect } from '@playwright/test';
 //Import POMs used in these tests
 import { TestSetup } from '../POM/TestSetup.ts';
 import { TopNavBar } from '../POM/TopNavBar.ts';
+import { FooterNavBar } from '../POM/FooterNavBar.ts';
 //Import test data used by tests
 // B.1
 import { topNavBarExpected } from '../test-data/topNavBarExpect.json'
@@ -38,8 +39,22 @@ test.describe('B. Site navigation with working properly', () => {
             expect(page.url()).toBe(navButton.url)
         }
     })
-    test('B.2 Search bar yields results with mathcing keywords' async ({ page }) => {
-        //Search string from test-data
-        
+    test('B.2 Search bar yields results with mathcing keywords', async ({ page }) => {
+        //Set up POM classes
+        const PomFooterNavBar = new FooterNavBar(page);
+
+        //Search all string from test-data
+        await Promise.all(searchTests.map(async testSearch => {
+            //Search test input
+            await PomFooterNavBar.searchStr(testSearch)
+            await page.waitForLoadState('domcontentloaded')
+                                    
+            //Check for results that match the testSearch
+            let numValidResults = await PomFooterNavBar.searchResult.getByText(testSearch).count();
+            
+            //Fail test if no matching results appear
+            expect(numValidResults > 0).toBeTruthy()
+            console.log(numValidResults)
+        }))
     })
 })
