@@ -54,11 +54,8 @@
 ## Test Ideas
  1. Top 100 articles of Newest are sorted chronologically - content
  2. All top bar navigation button are working - navigation
- 3. Search box yields results with matching keywords - navigation
- 4. New User setup is working - user
- 5. Users can log into their existing accounts - user
- 6. Users can create and delete new posts (This one might not work) - users
- 7. Liking or submiting directs non-users to login or signup - users
+ 3. ✅Search box yields results with matching keywords - navigation
+ 4. 
  8. Comment count matches number of comments for top 100 articles - content
  9. Ad slot up to date and link is working - content
  10. Site margins are removed for smaller viewing windows - navigation
@@ -77,8 +74,4 @@
  3. Search box yields results with matching keywords - nav
  10. Site margins are removed for smaller viewing windows - navigation
  11. parent link on comment pages links to item comment is attached to
- ### User Interations
- 4. New User setup is working - user
- 5. Users can log into their existing accounts - user
- 6. Users can create and delete new posts (This one might not work) - users
- 7. Liking or submiting directs non-users to login or signup - users
+ 
