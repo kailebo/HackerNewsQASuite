@@ -18,5 +18,6 @@ export class FooterNavBar {
     async searchStr(searchInput) {
         await this.searchBar.fill(searchInput);
         await this.searchBar.press('Enter');
+        await this.page.waitForFunction(async () => await this.searchResult.count() >= 10);
     }
 }

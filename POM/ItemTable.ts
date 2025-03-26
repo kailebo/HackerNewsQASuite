@@ -12,24 +12,24 @@ import { readlink } from 'fs';
 export class ItemTable {
     readonly page: Page;
     readonly commentsLoc: Locator;
+    readonly urlLoc: Locator;
     readonly moreItemsButton: Locator;
     readonly itemTopRow: Locator;
-    
-
-    
+        
     constructor(page) {
         this.page = page;
         this.commentsLoc = page.locator('.subline a[href^="item?id="]:not(.age *)');
+        this.urlLoc = page.locator('.title').getByRole('link');
         this.moreItemsButton = page.locator('.morelink');
         this.itemTopRow = page.locator('.athing');
     }
     async waitForTableToLoad() {
         this.page.waitForLoadState('domcontentloaded')
-        // await this.page.waitForFunction(async () => {
-        //     //Waits for all 30 items on page to load. 
-        //     // This is good when targeting all content matching a locator on the page
-        //     return await this.itemTopRow.count() >= 30;
-        // })
+        await this.page.waitForFunction(async () => {
+            //Waits for all 30 items on page to load. 
+            // This is good when targeting all content matching a locator on the page
+            return await this.itemTopRow.count() >= 30;
+        })
     }
     async getItemDetailsById(itemId,getAll=false,getRank=false,getTitle=false,getUrl=false,getUser=false,getTime=false,getComments=false) {
         //This method uses an items hacker news id number to make sure all the details it pulls are for the same item

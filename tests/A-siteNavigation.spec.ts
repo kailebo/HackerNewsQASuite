@@ -6,12 +6,12 @@ import { TopNavBar } from '../POM/TopNavBar.ts';
 import { FooterNavBar } from '../POM/FooterNavBar.ts';
 //Import test data used by tests
 // B.1
-import { topNavBarExpected } from '../test-data/topNavBarExpect.json'
+import { topNavBarExpected } from '../test-data/a-1-topNavBarExpect.json'
 // B.2
-import { searchTests } from '../test-data/b-2-searchTest.json'
+import { searchTests } from '../test-data/a-2-searchTest.json'
 
 
-test.describe('B. Site navigation with working properly', () => {
+test.describe('A. Site navigation with working properly', () => {
     //Open Hacker News page for each test
     test.beforeEach(async ({ page }) => {
         //Create POM classes
@@ -22,7 +22,7 @@ test.describe('B. Site navigation with working properly', () => {
     test.afterEach(async ({ page }) => {
         await page.close()
     })
-    test('B.1 Top Navigation bar is visible and links to correct pages', async ({ page }) => {
+    test('A.1 Top Navigation bar is visible and links to correct pages', async ({ page }) => {
         //Create POM classes for navigating top bar
         const PomTopNavBar = new TopNavBar(page);
         
@@ -39,7 +39,7 @@ test.describe('B. Site navigation with working properly', () => {
             expect(page.url()).toBe(navButton.url)
         }
     })
-    test('B.2 Search bar yields results with mathcing keywords', async ({ page }) => {
+    test('A.2 Search bar yields results with mathcing keywords', async ({ page }) => {
         //Set up POM classes
         const PomFooterNavBar = new FooterNavBar(page);
 
@@ -47,9 +47,10 @@ test.describe('B. Site navigation with working properly', () => {
         await Promise.all(searchTests.map(async testSearch => {
             //Search test input
             await PomFooterNavBar.searchStr(testSearch)
-            await page.waitForLoadState('domcontentloaded')
+            
+            
                                     
-            //Check for results that match the testSearch
+            //Check that search results match the testSearch
             let numValidResults = await PomFooterNavBar.searchResult.getByText(testSearch).count();
             
             //Fail test if no matching results appear
