@@ -5,18 +5,21 @@ import { TestSetup } from '../POM/TestSetup.ts';
 import { TopNavBar } from '../POM/TopNavBar.ts';
 import { FooterNavBar } from '../POM/FooterNavBar.ts';
 //Import test data used by tests
-// B.1
+// A.1
 import { topNavBarExpected } from '../test-data/a-1-topNavBarExpect.json'
-// B.2
+// A.2
 import { searchTests } from '../test-data/a-2-searchTest.json'
+// A.3
+import { footerNavBarExpected } from '../test-data/a-3-footerNavBarExpected.json'
 
 
 test.describe('A. Site navigation with working properly', () => {
     //Open Hacker News page for each test
     test.beforeEach(async ({ page }) => {
         //Create POM classes
-        const PomHackerNewsPage = new TestSetup(page);
-        await PomHackerNewsPage.gotoHackerNews(); 
+        const PomTestSetup = new TestSetup(page);
+        //Go to Hacker News
+        await PomTestSetup.gotoHackerNews(); 
     })
     //Close Page after each test
     test.afterEach(async ({ page }) => {
@@ -39,7 +42,7 @@ test.describe('A. Site navigation with working properly', () => {
             expect(page.url()).toBe(navButton.url)
         }
     })
-    test('A.2 Search bar yields results with mathcing keywords', async ({ page }) => {
+    test('A.2 Search bar yields results with matching keywords', async ({ page }) => {
         //Set up POM classes
         const PomFooterNavBar = new FooterNavBar(page);
 
@@ -57,5 +60,26 @@ test.describe('A. Site navigation with working properly', () => {
             expect(numValidResults > 0).toBeTruthy()
             console.log(numValidResults)
         }))
+    })
+    test('A.3 Footer bar links navigate to correct pages', async ({ page, context }) => {
+        //Create POM classes
+        const PomFooterNavBar = new FooterNavBar(page);
+        
+        //Test each link from test-data
+        for await (const linkObj of footerNavBarExpected)  {
+            //Await promised New page
+            const [newPage] = await Promise.all([
+                context.waitForEvent('page'),
+                //Click footer link with open in new tab set to true
+                PomFooterNavBar.navFootBarByName(linkObj.name,true)
+            ])
+            //wait for page to load
+            await newPage.waitForLoadState('domcontentloaded');
+            //Expect url of newPage to match test-data
+            await expect(newPage.url()).toBe(linkObj.url)
+            
+            //close newPage
+            await newPage.close()
+        }
     })
 })
