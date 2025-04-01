@@ -1,13 +1,15 @@
 import { Browser, type Locator, type Page } from '@playwright/test';
-import { readlink } from 'fs';
+
 
 //This POM is designed to interact with the html tables that list almost all of the content 
 // of Hacker New's various pages
 //Actions:
+// - Click 'More' to show next page of items
+// - Wait for table to load
 // - get item details by id
-// - get item details by username
-//item details retrieved:
-// - title, user, timestamp, url, comment count
+
+
+
 
 export class ItemTable {
     readonly page: Page;
@@ -25,13 +27,20 @@ export class ItemTable {
     }
     async waitForTableToLoad() {
         this.page.waitForLoadState('domcontentloaded')
-        await this.page.waitForFunction(async () => {
-            //Waits for all 30 items on page to load. 
-            // This is good when targeting all content matching a locator on the page
-            return await this.itemTopRow.count() >= 30;
-        })
+        await this.page.waitForSelector('.athing')
     }
-    async getItemDetailsById(itemId,getAll=false,getRank=false,getTitle=false,getUrl=false,getUser=false,getTime=false,getComments=false) {
+    async showMoreItems() {
+        await this.moreItemsButton.click()
+        await this.waitForTableToLoad()
+    }
+    async getItemDetailsById(itemId: string,
+                            getAll: boolean = false,
+                            getRank: boolean = false,
+                            getTitle: boolean = false,
+                            getUrl: boolean = false,
+                            getUser: boolean = false,
+                            getTime: boolean = false,
+                            getComments: boolean = false) {
         //This method uses an items hacker news id number to make sure all the details it pulls are for the same item
         // the item must be showing on the current page.
         // - Set getAll to true to pull all details or set individual items to true to pull just certain details
@@ -58,9 +67,5 @@ export class ItemTable {
         //Return Obj of details
         return { id, rank, title, url, user, time, comments}
     }
-    async showMoreItems() {
-        await this.moreItemsButton.click()
-        await this.page.waitForLoadState('domcontentloaded')
-        await this.page.waitForSelector('.athing')
-    }
+    
 }
