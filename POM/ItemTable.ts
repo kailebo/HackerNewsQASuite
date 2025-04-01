@@ -33,7 +33,14 @@ export class ItemTable {
         await this.moreItemsButton.click()
         await this.waitForTableToLoad()
     }
-    async getItemDetailsById(itemId,getAll=false,getRank=false,getTitle=false,getUrl=false,getUser=false,getTime=false,getComments=false) {
+    async getItemDetailsById(itemId: string,
+                            getAll: boolean = false,
+                            getRank: boolean = false,
+                            getTitle: boolean = false,
+                            getUrl: boolean = false,
+                            getUser: boolean = false,
+                            getTime: boolean = false,
+                            getComments: boolean = false) {
         //This method uses an items hacker news id number to make sure all the details it pulls are for the same item
         // the item must be showing on the current page.
         // - Set getAll to true to pull all details or set individual items to true to pull just certain details

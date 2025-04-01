@@ -21,7 +21,7 @@ export class FooterNavBar {
         this.searchResult = page.locator('article');
 
     }
-    async navFootBarByName(linkName,openInNewTab=false) {
+    async navFootBarByName(linkName: string, openInNewTab:boolean = false) {
         //Create locator variable with input name
         const linkLoc = this.footerNavBar.getByRole('link', {name: linkName })
         //click on link or Ctrl+Shift click on like to open in new tab
@@ -29,14 +29,14 @@ export class FooterNavBar {
         //Wait for page dom to load
         await this.page.waitForLoadState('domcontentloaded');
     }
-    async searchStr(searchInput) {
+    async searchStr(searchInput: string) {
         //Paste input query into search box
         await this.searchBar.fill(searchInput);
         //Press enter to search
         await this.searchBar.press('Enter');
         //Wait for results page dom to load and a result selector to appear
         await this.page.waitForLoadState('domcontentloaded');
-        await this.searchResult.waitFor();
+        await this.page.waitForSelector('article');
     }
     
 }

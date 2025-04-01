@@ -1,6 +1,6 @@
 const { spawn } = require("child_process");
 
-
+//Run node index.js to run all tests
 function runTests(testToRun='') {
     //Build npx command string based on function inputs
     let runTestsCmd = ['playwright','test']

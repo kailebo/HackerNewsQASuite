@@ -1,84 +1,70 @@
 //Import Playwright testing tools
-import { test,expect } from '@playwright/test';
-//Import POMs used in these tests
-import { TestSetup } from '../POM/TestSetup.ts';
-import { TopNavBar } from '../POM/TopNavBar.ts';
-import { FooterNavBar } from '../POM/FooterNavBar.ts';
+import { expect } from '@playwright/test';
+//Import playwright test with custom POM Fixtures
+import { test } from '../POM/pomFixtureExtend.ts'
 //Import test data used by tests
-// A.1
-import { topNavBarExpected } from '../test-data/a-1-topNavBarExpect.json'
-// A.2
-import { searchTests } from '../test-data/a-2-searchTest.json'
-// A.3
-import { footerNavBarExpected } from '../test-data/a-3-footerNavBarExpected.json'
+import { a1TestData } from '../test-data/a-1-topNavBarExpect.json'
+import { a2TestData } from '../test-data/a-2-searchTest.json'
+import { a3TestData } from '../test-data/a-3-footerNavBarExpected.json'
+//Import TopNavBar to be used on multipage test
+import { TopNavBar } from '../POM/TopNavBar.ts';
 
 
 test.describe('A. Site navigation with working properly', () => {
-    //Open Hacker News page for each test
-    test.beforeEach(async ({ page }) => {
-        //Create POM classes
-        const PomTestSetup = new TestSetup(page);
-        //Go to Hacker News
-        await PomTestSetup.gotoHackerNews(); 
-    })
     //Close Page after each test
     test.afterEach(async ({ page }) => {
-        await page.close()
+        await page.close();
     })
-    test('A.1 Top Navigation bar is visible and links to correct pages', async ({ page }) => {
-        //Create POM classes for navigating top bar
-        const PomTopNavBar = new TopNavBar(page);
-        
-
+    test('A.1 Top Navigation bar is visible and links to correct pages', async ({ page, context, topNavBar,testSetup }) => {
         //For each of the Top bar Navigation button:
         // - expect it to be visible
         // - click it to navigate to page
-        // - expect url to match correct url from test-data/topNavBarExpected        
-        for await(const navButton of topNavBarExpected) {
-            await page.waitForLoadState('domcontentloaded')
-            expect(PomTopNavBar[navButton.name]).toBeVisible()            
-            await PomTopNavBar[navButton.name].click()
-            await page.waitForLoadState('domcontentloaded')
-            expect(page.url()).toBe(navButton.url)
-        }
-    })
-    test('A.2 Search bar yields results with matching keywords', async ({ page }) => {
-        //Set up POM classes
-        const PomFooterNavBar = new FooterNavBar(page);
-
-        //Search all string from test-data
-        await Promise.all(searchTests.map(async testSearch => {
-            //Search test input
-            await PomFooterNavBar.searchStr(testSearch)
+        // - expect url to match correct url from test-data/topNavBarExpected 
+        await Promise.all(a1TestData.expectedLinks.map(async expectedLink => {
+            //Create New page
+            const navPage = await context.newPage();
+            //Open Hacker News in new page
+            await navPage.goto('https://news.ycombinator.com/');
             
+            //Click link
+            // await topNavBar.navByLinkName(expectedLink.name)
+            const newTopNavBar =  new TopNavBar(navPage);
+            await newTopNavBar.navByLinkName(expectedLink.name);            
             
-                                    
-            //Check that search results match the testSearch
-            let numValidResults = await PomFooterNavBar.searchResult.getByText(testSearch).count();
-            
-            //Fail test if no matching results appear
-            expect(numValidResults > 0).toBeTruthy()
-            console.log(numValidResults)
+            //Expect resulting page url to match the test-data url
+            expect(navPage.url()).toBe(expectedLink.url);
+            //close page
+            await navPage.close();
         }))
     })
-    test('A.3 Footer bar links navigate to correct pages', async ({ page, context }) => {
-        //Create POM classes
-        const PomFooterNavBar = new FooterNavBar(page);
+    test('A.2 Search bar yields results with matching keywords', async ({ page, footerNavBar }) => {
+        //Import test parameters
+        const testQuery = a2TestData.searchQuery;
+
+        //Search test input
+        await footerNavBar.searchStr(testQuery)
         
+        //Check that search results match the testQuery
+        let numValidResults = await page.locator('article').getByText(testQuery).count();
+        
+        //Fail test if no matching results appear
+        expect(numValidResults > 0).toBeTruthy()
+    })
+    test('A.3 Footer bar links navigate to correct pages', async ({ page, context, footerNavBar }) => {
         //Test each link from test-data
-        for await (const linkObj of footerNavBarExpected)  {
+        for await (const expectedLink of a3TestData.expectedLinks)  {
             //Await promised New page
             const [newPage] = await Promise.all([
                 context.waitForEvent('page'),
                 //Click footer link with open in new tab set to true
-                PomFooterNavBar.navFootBarByName(linkObj.name,true)
+                footerNavBar.navFootBarByName(expectedLink.name,true)
             ])
             //wait for page to load
             await newPage.waitForLoadState('domcontentloaded');
             //Expect url of newPage to match test-data
-            await expect(newPage.url()).toBe(linkObj.url)
+            await expect(newPage.url()).toBe(expectedLink.url)
             
-            //close newPage
+            //Close newPage
             await newPage.close()
         }
     })

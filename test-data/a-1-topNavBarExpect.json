@@ -1,10 +1,12 @@
-{ "topNavBarExpected": [
-    {"name":"logo","url":"https://news.ycombinator.com/"},
-    {"name":"hackerNews","url":"https://news.ycombinator.com/news"},
-    {"name":"new","url":"https://news.ycombinator.com/newest"},
-    {"name":"past","url":"https://news.ycombinator.com/front"},
-    {"name":"comments","url":"https://news.ycombinator.com/newcomments"},
-    {"name":"ask","url":"https://news.ycombinator.com/ask"},
-    {"name":"show","url":"https://news.ycombinator.com/show"},
-    {"name":"jobs","url":"https://news.ycombinator.com/jobs"}    
-]}
+{ "a1TestData": {
+    "expectedLinks": [
+        {"name":"logo","url":"https://news.ycombinator.com/"},
+        {"name":"Hacker News","url":"https://news.ycombinator.com/news"},
+        {"name":"new","url":"https://news.ycombinator.com/newest"},
+        {"name":"past","url":"https://news.ycombinator.com/front"},
+        {"name":"comments","url":"https://news.ycombinator.com/newcomments"},
+        {"name":"ask","url":"https://news.ycombinator.com/ask"},
+        {"name":"show","url":"https://news.ycombinator.com/show"},
+        {"name":"jobs","url":"https://news.ycombinator.com/jobs"}    
+    ]
+}}

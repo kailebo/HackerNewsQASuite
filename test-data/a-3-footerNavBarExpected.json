@@ -1,9 +1,11 @@
-{"footerNavBarExpected": [
-    {"name": "guidelines","url": "https://news.ycombinator.com/newsguidelines.html"},
-    {"name": "faq", "url": "https://news.ycombinator.com/newsfaq.html"},
-    {"name": "lists","url": "https://news.ycombinator.com/lists"},
-    {"name": "api","url": "https://github.com/HackerNews/API"},
-    {"name": "security","url": "https://news.ycombinator.com/security.html"},
-    {"name": "legal","url": "https://www.ycombinator.com/legal/"},
-    {"name": "apply to yc","url": "https://www.ycombinator.com/apply/"}
-]}
+{"a3TestData": {
+    "expectedLinks":[
+        {"name": "guidelines","url": "https://news.ycombinator.com/newsguidelines.html"},
+        {"name": "faq", "url": "https://news.ycombinator.com/newsfaq.html"},
+        {"name": "lists","url": "https://news.ycombinator.com/lists"},
+        {"name": "api","url": "https://github.com/HackerNews/API"},
+        {"name": "security","url": "https://news.ycombinator.com/security.html"},
+        {"name": "legal","url": "https://www.ycombinator.com/legal/"},
+        {"name": "apply to yc","url": "https://www.ycombinator.com/apply/"}
+    ]
+}}

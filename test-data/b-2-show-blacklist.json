@@ -1,0 +1,4 @@
+{"b2TestData": {
+    "numPagesToTest":2,
+    "blacklistUrls":["kickstarter.com","gofundme","gamefound.com","freefunder.com","spotfund.com"]    
+}}
