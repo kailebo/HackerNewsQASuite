@@ -19,7 +19,7 @@ type MyFixtures =  {
 //Extend playwright test base with POM models
 export const test = base.extend<MyFixtures>({
     user: [{
-        username: 'kjoApp01',
+        username: 'stablekjo',
         password: '*l3g0B@man-V01c3*_F1R$tTRY!',
         emailApiKey: 'e506d06cbd278e2752399dae732914d3e1589a86c5ba06fb3ad27b9c6e202a77',
         inboxId: '5ca30ca2-1840-428f-97f0-3aa774cabbfe'},

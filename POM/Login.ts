@@ -80,6 +80,7 @@ export class Login {
         //Click Login
         await this.loginButton.click();
         await this.page.waitForLoadState('domcontentloaded');
+        await this.reCaptchaCheck(this.loginButton);
     }
     async logoutUser() {
         await this.logoutButton.click();
@@ -90,7 +91,9 @@ export class Login {
         await this.forgotPasswordLink.click();
         await this.page.waitForLoadState('domcontentloaded');
         //Send Reset email
-        await this.resetPwButton.click()
+        await this.resetPwButton.click();
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.reCaptchaCheck(this.resetPwButton);
     }
     async enterNewPassword(newPassword) {
         //Enter Password and click change
@@ -107,6 +110,10 @@ export class Login {
         //Click Create Account
         await this.createAccButton.click();
         await this.page.waitForLoadState('domcontentloaded');
+        
+        //Check for reCaptcha
+        await this.reCaptchaCheck(this.createAccButton)
+
         //Add email to account if input
         if (newEmail) {
             await this.addEmailToAccount(newEmail);
@@ -118,6 +125,22 @@ export class Login {
         //Enter email
         await this.emailInput.fill(newEmail);
         await this.updateButton.click();
+        await this.reCaptchaCheck(this.updateButton);
+    }
+    async reCaptchaCheck(previousClick) {
+        //Checks for reCaptcha and pauses for manual solving
+        const reCaptchaVisiable = await this.page.locator('.g-recaptcha').isVisible()
+        if (reCaptchaVisiable) {
+            console.log('Please solve reCaptcha manually')
+            await this.page.waitForTimeout(30000) //set number of ms to solve
+            if (await previousClick.isVisible()) {
+                await previousClick.click();
+                await this.page.waitForLoadState('domcontentloaded')
+            }
+            return true
+        } else {
+            return false
+        }
     }
     //Mailslurp
     async createNewEmail() {
@@ -125,4 +148,5 @@ export class Login {
         const mailslurp = new MailSlurp( { apiKey: myApiKey });
         return await mailslurp.inboxController.createInboxWithDefaults();
     }
+
 }

@@ -1,4 +1,4 @@
-# Hacker News QA Suite by Kaileb O
+
 ## Project Timeline
 ### Planning
  - Come up with tests and project scope
