@@ -69,10 +69,12 @@ function runTests(testToRun=[]) {
         }
     })
 }
-
+const testsToRun = []
 //Run A tests
-runTests(['A-SiteNavigation.spec.ts','B-contentDisplay.spec.ts']);
+testsToRun.push('A-siteNavigation.spec.ts');
 //Run B tests
-// runTests('B-contentDisplay.spec.ts');
+testsToRun.push('B-contentDisplay.spec.ts');
 //Run C tests - manual reCaptcha solving required.
-// runTests('C-userInteractions.spec.ts');
+// testsToRun.push('C-userInteractions.spec.ts');
+
+runTests(testsToRun);
