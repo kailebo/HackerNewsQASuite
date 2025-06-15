@@ -1,4 +1,4 @@
-import { Browser, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 
 
 //This POM is designed to interact with the html tables that list almost all of the content 

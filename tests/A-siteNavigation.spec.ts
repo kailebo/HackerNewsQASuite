@@ -15,7 +15,7 @@ test.describe('A. Site navigation with working properly', () => {
     test.afterEach(async ({ page }) => {
         await page.close();
     })
-    test('A.1 Top Navigation bar is visible and links to correct pages', async ({ page, context, topNavBar,testSetup }) => {
+    test('A.1 Top Navigation bar is visible and links to correct pages', async ({ context }) => {
         //For each of the Top bar Navigation button:
         // - expect it to be visible
         // - click it to navigate to page

@@ -95,7 +95,7 @@ test.describe('B. Hacker News content is displaying correctly', () => {
         expect(improperUrls,'should have no blacklisted urls').toHaveLength(0);
     })
 
-    test('B.3 comment counts match number of comments on articles for top 100 articles on Hacker News', async ({ page, context, topNavBar, itemTable }) => {
+    test('B.3 comment counts match number of comments on articles for top articles on Hacker News', async ({ page, context, topNavBar, itemTable }) => {
         // # Setup        
         //Test Parameters
         const numArticlesToTest = b3TestData.numArticlesToTest;
